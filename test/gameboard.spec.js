@@ -40,7 +40,7 @@ describe('gameboard', () => {
   });
  
   describe('move', () => {
-    before(() => {
+    beforeEach(() => {
       board.playerO = emptyBoard.set('r0c0', 'O').set('r1c1', 'O');
       board.playerX = emptyBoard.set('r2c0', 'X').set('r2c1', 'X');
     });
@@ -56,11 +56,9 @@ describe('gameboard', () => {
     });
     
     it('refuse illegal move', () => {
-      try {
+      expect(() => {
         board.move('playerO', 'r2c0');
-      } catch (e) {
-        expect(e).to.equal(new Error('Illegal move'));
-      }
+      }).to.throw('Illegal move');
     });
   });
 });
