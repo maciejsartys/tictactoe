@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "homepage": "https://github.com/maciejsartys/tictactoe#readme",
-  "babel" : {
+  "babel": {
     "presets": ["latest"]
   }
 }
