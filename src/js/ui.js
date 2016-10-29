@@ -8,6 +8,9 @@
 export default function Ui() {
     this.DOMElements = {
         gameBoard: document.getElementById('gameBoard'),
+        shutter: document.getElementById('shutter'),
+        infoBox: document.getElementById('infobox'),
+        chooseSide: document.getElementById('chooseSide')
     };
 };
 
