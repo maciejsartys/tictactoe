@@ -1,27 +1,64 @@
 import { assert } from 'chai';
 import { Map } from 'immutable';
 import Game from '../src/js/game';
-import gameBoard from '../src/js/gameboard';
 
-describe('Game Logic', () => {
+describe('Game', () => {
   let game;
-  describe('game state', () => {
-    beforeEach(() => {
+  beforeEach(() => {
+    game = new Game();
+  });
+  //choose side, playerMove, gameFinished,
+  it('initialize new game at beginning', () => {
+    assert.deepEqual(game.state, new Map({
+      type: 'chooseSide',
+      value: null
+    }));
+  });
+  it('wait for next move if game is still underway');
+  it('is finished when one of players won');
+  it('is finished when it is draw');
+  describe('result', () => {
+    it('can show that game is still underway', () => {
+      game.gameboard.move('playerO', 'r1c1').move('playerO', 'r0c0');
+      game.gameboard.move('playerX', 'r2c0').move('playerX', 'r2c1');
+      let lastMove = Map({
+        player: 'playerX',
+        field: 'r2c1'
+      });
+      assert.equal(game.checkResult(lastMove), 'underway');
+    });
+    it('can show that game is won by one of players', () => {
+      game.gameboard.move('playerO', 'r1c1').move('playerO', 'r0c0')
+        .move('playerO', 'r2c2');
+      game.gameboard.move('playerX', 'r2c0').move('playerX', 'r2c1');
+      let lastMove = Map({
+        player: 'playerO',
+        field: 'r2c2'
+      });
+      assert.equal(game.checkResult(lastMove), 'won');
+      
       game = new Game();
+      game.gameboard.move('playerO', 'r0c1').move('playerO', 'r1c0')
+        .move('playerO', 'r1c2').move('playerO', 'r2c0').move('playerO', 'r2c1');
+      game.gameboard.move('playerX', 'r0c0').move('playerX', 'r0c2')
+        .move('playerX', 'r1c1').move('playerX', 'r2c2');
+      lastMove = Map({
+        player: 'playerX',
+        field: 'r2c2'
+      });
+      assert.equal(game.checkResult(lastMove), 'won');
     });
-    
-    it('has game state', () => {
-      assert.typeOf(game.state, 'object');
+    it('can determines if game is drawn', () => {
+      game.gameboard.move('playerO', 'r0c1').move('playerO', 'r1c0')
+        .move('playerO', 'r1c2').move('playerO', 'r2c0').move('playerO', 'r2c2');
+      game.gameboard.move('playerX', 'r0c0').move('playerX', 'r0c2')
+        .move('playerX', 'r1c1').move('playerX', 'r2c1');
+      let lastMove = Map({
+        player: 'playerO',
+        field: 'r2c2'
+      });
+      assert.equal(game.checkResult(lastMove), 'draw');
     });
-        //choose side, playerMove, gameFinished,
-    it('initialize new game at beginning', () => {
-      assert.deepEqual(game.state, new Map({ type: 'chooseSide', value: null}));
-    }); 
-    it('has board state', () => {
-      assert.instanceOf(game.gameBoard, gameBoard);
-    });
-    it('can check if game is won by one of players');
-    it('can determine if game is drawn');
   });
   describe('players moves', () => {
     it('lets player choose side');
