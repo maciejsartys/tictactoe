@@ -1,7 +1,7 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
 /** 
-* gameBoard object
+* Gameboard object
 * 
 * Holds information about board state and accept moves that change it.
 * Moves of player X And O are hold in seperate Maps.
@@ -14,7 +14,7 @@ import {Map} from 'immutable';
 * 
 */
 
-export default function gameBoard() {
+export default function Gameboard() {
     this.BOARD_ROWS = 3;
     this.BOARD_COLS = 3;
     
@@ -25,28 +25,56 @@ export default function gameBoard() {
             this.boardScaffold = this.boardScaffold.set('r'+i+'c'+j, null);
         }
     }
+    //lines helps find if game is won by any of players
+    this._lines = List.of(
+    List.of('r0c0', 'r0c1', 'r0c2'),
+    List.of('r1c0', 'r1c1', 'r1c2'),
+    List.of('r2c0', 'r2c1', 'r2c2'),
+    List.of('r0c0', 'r1c0', 'r2c0'),
+    List.of('r0c1', 'r1c1', 'r2c1'),
+    List.of('r0c2', 'r1c2', 'r2c2'),
+    List.of('r0c0', 'r1c1', 'r2c2'),
+    List.of('r0c2', 'r1c1', 'r2c0')
+    );
+    this._playerO;
+    this._playerX;
+    
     this.reset();
 }
+
+/**
+ * boardState
+ * getter: returns current state of board based on players moves
+ */
+Gameboard.prototype = {
+    get boardState() {
+        return this._playerO.mergeWith(
+            (previos, next) => previos || next, (this._playerX));
+    },
+    get lines() {
+        return this._lines;
+    }
+};
+
 
 /**
  * reset() 
  * clear players moves 
  */
 
-gameBoard.prototype.reset = function() {
-    this.playerO = Map({}).merge(this.boardScaffold);
-    this.playerX = Map({}).merge(this.boardScaffold);
+Gameboard.prototype.reset = function() {
+    this._playerO = Map({}).merge(this.boardScaffold);
+    this._playerX = Map({}).merge(this.boardScaffold);
 };
 
-/**
- * getBoardState()
- * returns current state of board based on players moves
- */
 
-gameBoard.prototype.getBoardState = function() {
-    return this.playerO.mergeWith(
-        (previos, next) => previos || next, (this.playerX));
+Gameboard.prototype.getPlayerMoves = function(player) {
+    if (player !== 'playerX' && player !== 'playerO' ) {
+        throw new Error('Illegal argument');
+    }
+    return this['_' + player];
 };
+
 
 /**
  * move() 
@@ -54,12 +82,20 @@ gameBoard.prototype.getBoardState = function() {
  * Throws 'Illegal move' error if not.
  */
 
-gameBoard.prototype.move = function(player, field) {
+Gameboard.prototype.move = function(player, field) {
     // TODO check if player parameter have correct form
+    player = '_' + player;
     
-    if (this[player].has(field) && this.getBoardState().get(field) === null) {
-        this[player] = this[player].set(field, player.charAt(6));
+    if (this[player].has(field) && this.boardState.get(field) === null) {
+        this[player] = this[player].set(field, player.charAt(7));
     } else {
         throw new Error('Illegal move');
     }
+    return this;
+};
+
+Gameboard.prototype.isFull = function() {
+    return this.boardState.filter((element) => {
+        return element === null;
+        }).size > 0 ? false : true;
 };
