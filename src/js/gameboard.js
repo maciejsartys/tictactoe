@@ -77,20 +77,20 @@ Gameboard.prototype.getPlayerMoves = function(player) {
 
 
 /**
- * move() 
+ * addMove() 
  * adds next move onto board and checks if move is legal (field is empty).
  * Throws 'Illegal move' error if not.
  */
 
-Gameboard.prototype.move = function(player, field) {
-    // TODO check if player parameter have correct form
+Gameboard.prototype.addMove = function(player, field) {
     player = '_' + player;
-    
-    if (this[player].has(field) && this.boardState.get(field) === null) {
-        this[player] = this[player].set(field, player.charAt(7));
-    } else {
-        throw new Error('Illegal move');
+    if (typeof this[player] === undefined) {
+        throw new Error('Wrong player parameter');
     }
+    if (this[player].has(field) !== true || this.boardState.get(field) !== null) {
+        throw new Error('Wrong field parameter');
+    }
+    this[player] = this[player].set(field, player.charAt(7));
     return this;
 };
 

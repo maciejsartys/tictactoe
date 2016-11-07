@@ -1,4 +1,4 @@
-import { Map, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import Gameboard from '../src/js/gameboard.js';
 import emptyBoard from './emptyboard';
@@ -18,8 +18,8 @@ describe('gameboard', () => {
     });
     
     it('returns current state', () => {
-      board.move('playerO', 'r0c0').move('playerO', 'r1c1')
-      .move('playerX', 'r2c0').move('playerX', 'r2c1');
+      board.addMove('playerO', 'r0c0').addMove('playerO', 'r1c1')
+      .addMove('playerX', 'r2c0').addMove('playerX', 'r2c1');
       expect(board.boardState).to.equal(fromJS({
         r0c0: 'O', r0c1: null, r0c2: null,
         r1c0: null, r1c1: 'O', r1c2: null,
@@ -28,8 +28,8 @@ describe('gameboard', () => {
     });
     
     it('resets state', ()=> {
-      board.move('playerO', 'r0c0').move('playerO', 'r1c1')
-      .move('playerX', 'r2c0').move('playerX', 'r2c1');
+      board.addMove('playerO', 'r0c0').addMove('playerO', 'r1c1')
+      .addMove('playerX', 'r2c0').addMove('playerX', 'r2c1');
       board.reset();
       expect(board.boardState).to.equal(emptyBoard);
     });
@@ -37,13 +37,13 @@ describe('gameboard', () => {
  
   describe('move', () => {
     beforeEach(() => {
-      board.move('playerO', 'r0c0').move('playerO', 'r1c1')
-      .move('playerX', 'r2c0').move('playerX', 'r2c1');
+      board.addMove('playerO', 'r0c0').addMove('playerO', 'r1c1')
+      .addMove('playerX', 'r2c0').addMove('playerX', 'r2c1');
     });
     
     it('accepts legal move', () => {
-      board.move('playerO', 'r0c2');
-      board.move('playerX', 'r2c2');
+      board.addMove('playerO', 'r0c2');
+      board.addMove('playerX', 'r2c2');
       expect(board.boardState).to.equal(fromJS({
         r0c0: 'O', r0c1: null, r0c2: 'O',
         r1c0: null, r1c1: 'O', r1c2: null,
@@ -53,8 +53,11 @@ describe('gameboard', () => {
     
     it('refuse illegal move', () => {
       expect(() => {
-        board.move('playerO', 'r2c0');
-      }).to.throw('Illegal move');
+        board.addMove('playerO', 'r2c0');
+      }).to.throw();
+      expect(() => {
+        board.addMove('playerZ', 'r0c1');
+      }).to.throw();
     });
   });
 });
