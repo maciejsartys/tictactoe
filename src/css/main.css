@@ -1,0 +1,27 @@
+body {
+  background-color: yellow; }
+
+.gameBoard {
+  width: 324px;
+  font-size: 0; }
+  .gameBoard .field {
+    box-sizing: border-box;
+    border-width: 1px;
+    border-color: black;
+    height: 108px;
+    line-height: 108px;
+    width: 108px;
+    display: inline-block;
+    margin: 0;
+    background-color: red;
+    vertical-align: middle; }
+    .gameBoard .field p {
+      height: 100%;
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 32px;
+      vertical-align: middle;
+      text-align: center; }
+
+/*# sourceMappingURL=main.css.map */

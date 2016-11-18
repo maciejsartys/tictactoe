@@ -7,7 +7,7 @@ import Gameboard from './gameboard';
 */
 
 export default function Game() {
-  this.state = new Map({
+  this.state = Map({
     type: 'chooseSide',
     value: null
   });
@@ -36,4 +36,13 @@ Game.prototype.checkResult = function(lastMove) {
     } else {
       return this.gameboard.isFull() === true ? 'draw' : 'underway';
     }
+};
+
+Game.prototype.move = function(move) {
+  if (move instanceof Map !== true) {
+    throw new TypeError("Invalid parameter");
+  }
+  this.gameboard.addMove(move.get('player'), move.get('field'));
+  const gameResult = this.checkResult(move);
+  this.next(gameResult, move);
 };
