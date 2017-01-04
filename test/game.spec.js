@@ -15,46 +15,75 @@ describe('Game', () => {
       value: null
     }));
   });
-  it('wait for next move if game is still underway', () => {
+  it('waits for first move of random player after choosing side', () => {
+    game.state = Map({
+      type: 'chooseSide',
+      value: null
+    });
+    const randomizeFirstSideStub = sinon.stub(game, 'randomizeFirstSide');
+    randomizeFirstSideStub.returns('playerO');
+    game.next('underway', null);
+    expect(game.state).equal(Map({
+      type: 'playerMove',
+      value: 'playerO'
+    }));
+  });
+  it('waits for next move if game is still underway', () => {
+    let move = Map({
+      player: 'playerO',
+      field: 'r0c0'
+    });
     game.state = Map({
       type: 'playerMove',
       value: 'playerO'
     });
-    game.next('underway');
+    game.next('underway', move);
     expect(game.state).equal(Map({
       type: 'playerMove',
       value: 'playerX'
     }));
     
+    move = Map({
+      player: 'playerX',
+      field: 'r0c0'
+    });
     game.state = Map({
       type: 'playerMove',
       value: 'playerX'
     });
-    game.next('underway');
+    game.next('underway', move);
     expect(game.state).equal(Map({
       type: 'playerMove',
       value: 'playerO'
     }));
   });
   it('is finished when one of players won', () => {
+    const move = Map({
+      player: 'playerO',
+      field: 'r0c0'
+    });
     game.state = Map({
-      type: 'playerMove',
+      type: 'won',
       value: 'playerO'
     });
-    game.next('won');
+    game.next('won', move);
     expect(game.state).equal(Map({
-      type: 'won',
+      type: 'finished',
       value: 'playerO'
     }));
   });
   it('is finished when it is draw', () => {
-    game.state = Map({
-      type: 'playerMove',
-      value: 'playerO'
+    const move = Map({
+      player: 'playerO',
+      field: 'r0c0'
     });
-    game.next('underway');
-    expect(game.state).equal(Map({
+    game.state = Map({
       type: 'draw',
+      value: null
+    });
+    game.next('draw', move);
+    expect(game.state).equal(Map({
+      type: 'finished',
       value: null
     }));
   });

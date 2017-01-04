@@ -46,3 +46,53 @@ Game.prototype.move = function(move) {
   const gameResult = this.checkResult(move);
   this.next(gameResult, move);
 };
+
+/**
+* function next
+* set new state of Game based on last action
+*/
+
+Game.prototype.next = function(result, lastMove) {
+  switch (result) {
+    case 'underway':
+      if (lastMove === null) {
+        const firstSide = this.randomizeFirstSide();
+        this.state = Map({
+          type: 'playerMove',
+          value: firstSide
+        });
+      } else {
+        this.state = Map({
+          type: 'playerMove',
+          value: lastMove.get('player') === 'playerX' ? 'playerO' : 'playerX'
+        });
+      }
+      break;
+      
+    case 'draw':
+      this.state = Map({
+        type: 'finished',
+        value: null
+      });
+      break;
+      
+    case 'won':
+      this.state = Map({
+        type: 'finished',
+        value: lastMove.get('player')
+      });
+      break;
+      
+    default:
+      // code
+  }
+};
+
+/**
+* function randomizeFirstSide
+* randomize side which will start game
+*/
+
+Game.prototype.randomizeFirstSide = function() {
+  return Math.floor((Math.random() * 2)) === 0 ? 'playerO' : 'playerX';
+};
