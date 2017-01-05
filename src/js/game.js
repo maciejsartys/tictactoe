@@ -72,7 +72,7 @@ Game.prototype.next = function(result, lastMove) {
     case 'draw':
       this.state = Map({
         type: 'finished',
-        value: null
+        value: 'draw'
       });
       break;
       
@@ -82,9 +82,6 @@ Game.prototype.next = function(result, lastMove) {
         value: lastMove.get('player')
       });
       break;
-      
-    default:
-      // code
   }
 };
 
@@ -95,4 +92,12 @@ Game.prototype.next = function(result, lastMove) {
 
 Game.prototype.randomizeFirstSide = function() {
   return Math.floor((Math.random() * 2)) === 0 ? 'playerO' : 'playerX';
+};
+
+Game.prototype.setPlayerMark = function(mark) {
+  if (!(mark === 'playerO' || mark === 'playerX')) {
+    throw new Error('Wrong player mark');
+  }
+  this.playerMark = mark;
+  this.next('underway', null);
 };

@@ -63,7 +63,7 @@ describe('Game', () => {
       field: 'r0c0'
     });
     game.state = Map({
-      type: 'won',
+      type: 'playerMove',
       value: 'playerO'
     });
     game.next('won', move);
@@ -78,13 +78,13 @@ describe('Game', () => {
       field: 'r0c0'
     });
     game.state = Map({
-      type: 'draw',
-      value: null
+      type: 'playerMove',
+      value: 'playerO'
     });
     game.next('draw', move);
     expect(game.state).equal(Map({
       type: 'finished',
-      value: null
+      value: 'draw'
     }));
   });
   describe('result', () => {
