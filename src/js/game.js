@@ -1,5 +1,6 @@
 import { Map, List } from 'immutable';
 import Gameboard from './gameboard';
+//import Ui from './ui';
 
 /** 
 * game object
@@ -13,6 +14,7 @@ export default function Game() {
   });
   this.gameboard = new Gameboard();
   this.playerMark = null;
+//this.ui = new Ui();
 }
 
 
@@ -47,6 +49,14 @@ Game.prototype.move = function(move) {
   this.next(gameResult, move);
 };
 
+Game.prototype.getNextMove = function(player) {
+  if (player === this.playerMark) {
+    this.ui.waitForPlayerMove();
+  } else {
+    this.ai.getMove(this.gameboard, player);
+  }
+};
+
 /**
 * function next
 * set new state of Game based on last action
@@ -67,6 +77,7 @@ Game.prototype.next = function(result, lastMove) {
           value: lastMove.get('player') === 'playerX' ? 'playerO' : 'playerX'
         });
       }
+      this.getNextMove(this.state.get('player'));
       break;
       
     case 'draw':

@@ -7,6 +7,8 @@ describe('Game', () => {
   let game;
   beforeEach(() => {
     game = new Game();
+    game.ai = sinon.stub();
+    game.ai.getMove = sinon.stub();
   });
   //choose side, playerMove, gameFinished,
   it('initialize new game at beginning', () => {
@@ -86,6 +88,19 @@ describe('Game', () => {
       type: 'finished',
       value: 'draw'
     }));
+  });
+  it('gets move from AI on it\'s turn', () => {
+    game.state = Map({
+      type: 'playerMove',
+      value: 'playerX'
+    });
+    game.playerMark = 'playerO';
+    game.getNextMove('playerX');
+    expect(game.ai.getMove.calledOnce).to.be.true;
+    
+  });
+  it('waits for human player move on it\'s turn', () => {
+    
   });
   describe('result', () => {
     it('can show that game is still underway', () => {
