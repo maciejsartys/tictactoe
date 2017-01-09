@@ -88,7 +88,7 @@ Gameboard.prototype.addMove = function(player, field) {
         throw new Error('Wrong player parameter');
     }
     if (this[player].has(field) !== true || this.boardState.get(field) !== null) {
-        throw new Error('Wrong field parameter');
+        throw new Error('Wrong field parameter ' + field);
     }
     this[player] = this[player].set(field, player.charAt(7));
     return this;
