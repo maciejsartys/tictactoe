@@ -1,6 +1,7 @@
 import { Map } from 'immutable'
 import Gameboard from './gameboard'
 import Ui from './ui'
+import Ai from './ai'
 
 /**
 * game object
@@ -15,6 +16,7 @@ export default function Game () {
   this.gameboard = new Gameboard()
   this.playerMark = null
   this.ui = new Ui()
+  this.ai = new Ai()
 }
 
 /**
