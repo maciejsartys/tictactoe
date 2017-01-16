@@ -1,7 +1,7 @@
-import {
-  expect
-}
-from 'chai';
+/* global eventFire, doc */
+
+import {expect} from 'chai';
+import Sinon from 'sinon'
 import Ui from '../src/js/ui';
 
 describe('User interface', () => {
@@ -31,5 +31,13 @@ describe('User interface', () => {
       expect(markO.classList.contains('visible')).to.equal(true);
       expect(markO.classList.contains('hidden')).to.equal(false);
     });
+    it('react when user click field', () => {
+      let game = {}
+      game.playerMark = 'playerX'
+      const moveSpy = game.move = Sinon.spy()
+      let ui = new Ui(game)
+      document.getElementById('r1c1').click()
+      expect(moveSpy.calledOnce).to.equal(true)
+    })
   });
 });

@@ -15,7 +15,7 @@ export default function Game () {
   })
   this.gameboard = new Gameboard()
   this.playerMark = null
-  this.ui = new Ui()
+  this.ui = new Ui(this)
   this.ai = new Ai()
 }
 

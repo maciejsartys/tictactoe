@@ -1,16 +1,21 @@
+import { Map } from 'immutable'
+
 /**
  * Ui object
  *
  * Resposible for view rendering and attaching events handlers
  */
 
-export default function Ui () {
+export default function Ui (game) {
+  this.game = game
+  this.eventHandlers = {}
   this.DOMElements = {
     gameBoard: document.getElementById('gameBoard'),
     shutter: document.getElementById('shutter'),
     infoBox: document.getElementById('infoBox'),
     chooseSide: document.getElementById('chooseSide')
   }
+  this.eventHandlers.boardClick = this.setBoardClickHandler()
 }
 
 /**
@@ -41,4 +46,19 @@ Ui.prototype.setInfoBoxMessage = function (messageType) {
     }
   })()
   this.DOMElements.infoBox.children[0].innerHTML = message
+}
+
+Ui.prototype.setBoardClickHandler = function () {
+  this.DOMElements.gameBoard.addEventListener('click', (event) => {
+    if (event.target.className === 'field') {
+      this.game.move(Map({
+        player: this.game.playerMark,
+        field: event.target.id
+      }))
+    }
+  })
+  return {
+    type: 'click',
+    element: this.gameboard
+  }
 }
