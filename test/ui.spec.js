@@ -1,7 +1,7 @@
 /* global eventFire, doc */
 
 import {expect} from 'chai';
-import Sinon from 'sinon'
+import sinon from 'sinon'
 import Ui from '../src/js/ui';
 
 describe('User interface', () => {
@@ -17,6 +17,15 @@ describe('User interface', () => {
       expect(message).equal('It\'s a draw');
     });
   });
+  describe('Choose side box', () => {
+    it('allow to choose side', () => {
+      let game = {}
+      const setPlayerMarkSpy = game.setPlayerMark = sinon.spy()
+      const ui = new Ui(game)
+      document.getElementById('playerX').click()
+      expect(setPlayerMarkSpy.calledWith('playerX')).to.equal(true)
+    })
+  })
 
   describe('gameboard', () => {
 
@@ -34,7 +43,7 @@ describe('User interface', () => {
     it('react when user click field', () => {
       let game = {}
       game.playerMark = 'playerX'
-      const moveSpy = game.move = Sinon.spy()
+      const moveSpy = game.move = sinon.spy()
       let ui = new Ui(game)
       document.getElementById('r1c1').click()
       expect(moveSpy.calledOnce).to.equal(true)

@@ -16,6 +16,7 @@ export default function Ui (game) {
     chooseSide: document.getElementById('chooseSide')
   }
   this.eventHandlers.boardClick = this.setBoardClickHandler()
+  this.eventHandlers.chooseSideClick = this.setChooseSideHandler()
 }
 
 /**
@@ -59,6 +60,20 @@ Ui.prototype.setBoardClickHandler = function () {
   })
   return {
     type: 'click',
-    element: this.gameboard
+    element: this.DOMElements.gameboard
+  }
+}
+
+Ui.prototype.setChooseSideHandler = function () {
+  this.DOMElements.chooseSide.addEventListener('click', (event) => {
+    console.log(event.target.tagName)
+    if (event.target.tagName === 'BUTTON') {
+          console.log(event.target.id)
+      this.game.setPlayerMark(event.target.id)
+    }
+  })
+  return {
+    type: 'click',
+    element: this.DOMElements.chooseSide
   }
 }
