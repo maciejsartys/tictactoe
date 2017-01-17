@@ -46,6 +46,7 @@ Game.prototype.move = function (move) {
     throw new TypeError('Invalid parameter')
   }
   this.gameboard.addMove(move.get('player'), move.get('field'))
+  this.ui.showMark(move)
   const gameResult = this.checkResult(move)
   this.next(gameResult, move)
 }
@@ -54,7 +55,7 @@ Game.prototype.getNextMove = function (player) {
   if (player === this.playerMark) {
     this.ui.waitForPlayerMove()
   } else {
-    this.ai.getMove(this.gameboard, player)
+    this.ai.getMove(this.gameboard.boardState, player)
   }
 }
 

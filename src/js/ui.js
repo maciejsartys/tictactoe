@@ -24,8 +24,9 @@ export default function Ui (game) {
  * shows player mark in gameboard field
  */
 
-Ui.prototype.showMark = function (field, mark) {
-  const selector = '#' + field + ' .' + mark + 'mark'
+Ui.prototype.showMark = function (move) {
+  const mark = move.get('player').slice(-1)
+  const selector = '#' + move.get('field') + ' .' + mark + 'mark'
   const element = this.DOMElements.gameBoard.querySelector(selector)
   element.classList.remove('hidden')
   element.classList.add('visible')
