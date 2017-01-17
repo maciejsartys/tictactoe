@@ -66,9 +66,7 @@ Ui.prototype.setBoardClickHandler = function () {
 
 Ui.prototype.setChooseSideHandler = function () {
   this.DOMElements.chooseSide.addEventListener('click', (event) => {
-    console.log(event.target.tagName)
     if (event.target.tagName === 'BUTTON') {
-          console.log(event.target.id)
       this.game.setPlayerMark(event.target.id)
     }
   })

@@ -9,7 +9,7 @@ describe('Game', () => {
   beforeEach(() => {
     game = new Game();
     game.ai = {
-      etMove: sinon.stub(),
+      getMove: sinon.stub(),
     };
     game.ui = {
       waitForPlayerMove: sinon.stub()

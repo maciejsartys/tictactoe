@@ -94,5 +94,5 @@ Gameboard.prototype.addMove = function (player, field) {
 Gameboard.prototype.isFull = function () {
   return this.boardState.filter((element) => {
     return element === null
-  }).size > 0
+  }).size === 0
 }
