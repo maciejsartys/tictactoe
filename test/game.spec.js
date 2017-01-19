@@ -8,16 +8,11 @@ describe('Game', () => {
   
   beforeEach(() => {
     game = new Game();
-    game.ai = {
-      getMove: sinon.stub(),
-    };
-    game.ui = {
-      waitForPlayerMove: sinon.stub()
-    };
+    game.ui.waitForPlayerMove = sinon.spy()
   });
   //choose side, playerMove, gameFinished,
   it('initialize new game at beginning', () => {
-    assert.deepEqual(game.state, new Map({
+    expect(game.state).equal(Map({
       type: 'chooseSide',
       value: null
     }));
@@ -95,6 +90,7 @@ describe('Game', () => {
     }));
   });
   it('gets move from AI on it\'s turn', () => {
+    sinon.spy(game.ai, 'getMove')
     game.state = Map({
       type: 'playerMove',
       value: 'playerX'

@@ -13,15 +13,15 @@ const doc = jsdom.jsdom("<!doctype html><html> \
                 <button id='resetGame' class='btn'>Start new game</button> \
             </div> \
             <div id='gameBoard' class='container gameBoard'> \
-                <div class='field' id='r0c0'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r0c1'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r0c2'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r1c0'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r1c1'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r1c2'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r2c0'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r2c1'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
-                <div class='field' id='r2c2'><p class='mark xmark hidden'>X</p><p class='mark omark hidden'>O</p></div> \
+                <div class='field' id='r0c0'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r0c1'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r0c2'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r1c0'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r1c1'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r1c2'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r2c0'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r2c1'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
+                <div class='field' id='r2c2'><p class='mark Xmark hidden'>X</p><p class='mark Omark hidden'>O</p></div> \
             </div> \
             <div id='chooseSide' class='hidden'> \
                 <button id='playerO'>O</button> \

@@ -3,6 +3,8 @@
 import {expect} from 'chai';
 import sinon from 'sinon'
 import Ui from '../src/js/ui';
+import { Map } from 'immutable'
+import jsdom from 'jsdom';
 
 describe('User interface', () => {
   describe('InfoBox', () => {
@@ -17,26 +19,35 @@ describe('User interface', () => {
       expect(message).equal('It\'s a draw');
     });
   });
-  describe('Choose side box', () => {
+  describe('Choose side', () => {
     it('allow to choose side', () => {
       let game = {}
+      let ui = new Ui(game)
       const setPlayerMarkSpy = game.setPlayerMark = sinon.spy()
-      const ui = new Ui(game)
-      document.getElementById('playerX').click()
-      expect(setPlayerMarkSpy.calledWith('playerX')).to.equal(true)
+      ui.chooseSideHandler({
+        target: {
+          tagName: 'BUTTON',
+          id: 'playerX'
+        }
+      })
+      expect(setPlayerMarkSpy.calledWith('playerX')).to.be.true
     })
   })
 
   describe('gameboard', () => {
-
     it('can switch visibility of mark in field', () => {
       const ui = new Ui();
-      ui.showMark('r0c0', 'x');
-      const markX = ui.DOMElements.gameBoard.querySelector('#r0c0 .xmark');
+      ui.showMark(Map({
+        field: 'r0c0',
+        player: 'playerX'}));
+      const markX = ui.DOMElements.gameBoard.querySelector('#r0c0 .Xmark');
       expect(markX.classList.contains('visible')).to.equal(true);
       expect(markX.classList.contains('hidden')).to.equal(false);
-      ui.showMark('r1c2', 'o');
-      const markO = ui.DOMElements.gameBoard.querySelector('#r1c2 .omark');
+      ui.showMark(Map({
+        field: 'r1c2',
+        player: 'playerO'
+      }))
+      const markO = ui.DOMElements.gameBoard.querySelector('#r1c2 .Omark');
       expect(markO.classList.contains('visible')).to.equal(true);
       expect(markO.classList.contains('hidden')).to.equal(false);
     });
@@ -45,7 +56,12 @@ describe('User interface', () => {
       game.playerMark = 'playerX'
       const moveSpy = game.move = sinon.spy()
       let ui = new Ui(game)
-      document.getElementById('r1c1').click()
+      ui.boardClickHandler({
+        target: {
+          className: 'field',
+          id: 'r1c1'
+        }
+      })
       expect(moveSpy.calledOnce).to.equal(true)
     })
   });
