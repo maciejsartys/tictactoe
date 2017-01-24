@@ -1,26 +1,22 @@
-/* global eventFire, doc */
-
-import {expect} from 'chai';
+import {expect} from 'chai'
 import sinon from 'sinon'
-import Ui from '../src/js/ui';
+import Ui from '../src/js/ui'
 import { Map } from 'immutable'
-import jsdom from 'jsdom';
 
 describe('User interface', () => {
   describe('InfoBox', () => {
-    it('Display choosen message to user', () => {
-      let ui = new Ui();
-      ui.setInfoBoxMessage('sideSelect');
-      let message = ui.DOMElements.infoBox.children[0].innerHTML;
-      expect(message).equal('Choose side');
-      
-      ui.setInfoBoxMessage('draw');
-      message = ui.DOMElements.infoBox.children[0].innerHTML;
-      expect(message).equal('It\'s a draw');
-    });
-  });
-  describe('Choose side', () => {
-    it('allow to choose side', () => {
+    it('should display choosen message to user', () => {
+      let ui = new Ui()
+      ui.setInfoBoxMessage('sideSelect')
+      let message = ui.DOMElements.infoBox.children[0].innerHTML
+      expect(message).equal('Choose side')
+      ui.setInfoBoxMessage('draw')
+      message = ui.DOMElements.infoBox.children[0].innerHTML
+      expect(message).equal('It\'s a draw')
+    })
+  })
+  describe('Choose side box', () => {
+    it('should allow to choose side', () => {
       let game = {}
       let ui = new Ui(game)
       const setPlayerMarkSpy = game.setPlayerMark = sinon.spy()
@@ -33,25 +29,24 @@ describe('User interface', () => {
       expect(setPlayerMarkSpy.calledWith('playerX')).to.be.true
     })
   })
-
   describe('gameboard', () => {
-    it('can switch visibility of mark in field', () => {
-      const ui = new Ui();
+    it('should switch visibility of mark in field', () => {
+      const ui = new Ui()
       ui.showMark(Map({
         field: 'r0c0',
-        player: 'playerX'}));
-      const markX = ui.DOMElements.gameBoard.querySelector('#r0c0 .Xmark');
-      expect(markX.classList.contains('visible')).to.equal(true);
-      expect(markX.classList.contains('hidden')).to.equal(false);
+        player: 'playerX'}))
+      const markX = ui.DOMElements.gameBoard.querySelector('#r0c0 .Xmark')
+      expect(markX.classList.contains('visible')).to.equal(true)
+      expect(markX.classList.contains('hidden')).to.equal(false)
       ui.showMark(Map({
         field: 'r1c2',
         player: 'playerO'
       }))
-      const markO = ui.DOMElements.gameBoard.querySelector('#r1c2 .Omark');
-      expect(markO.classList.contains('visible')).to.equal(true);
-      expect(markO.classList.contains('hidden')).to.equal(false);
-    });
-    it('react when user click field', () => {
+      const markO = ui.DOMElements.gameBoard.querySelector('#r1c2 .Omark')
+      expect(markO.classList.contains('visible')).to.be.true
+      expect(markO.classList.contains('hidden')).to.be.false
+    })
+    it('should react when user click field', () => {
       let game = {}
       game.playerMark = 'playerX'
       const moveSpy = game.move = sinon.spy()
@@ -62,7 +57,7 @@ describe('User interface', () => {
           id: 'r1c1'
         }
       })
-      expect(moveSpy.calledOnce).to.equal(true)
+      expect(moveSpy.calledOnce).to.be.true
     })
-  });
-});
+  })
+})

@@ -1,6 +1,5 @@
 require('./css/main.scss')
 import Game from './js/game'
 
+new Game()
 const game = new Game()
-console.log('App running')
-game.gameboard.boardState
