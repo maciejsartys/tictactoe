@@ -1,5 +1,16 @@
 require('./css/main.scss')
 import Game from './js/game'
 
-new Game()
-const game = new Game()
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(() => {
+  const game = new Game()
+  return game
+})
+
