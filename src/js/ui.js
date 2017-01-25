@@ -15,7 +15,7 @@ export default function Ui (game) {
     infoBox: document.getElementById('infoBox'),
     chooseSide: document.getElementById('chooseSide')
   }
-  this.eventHandlers = this.setHandlers();
+  this.eventHandlers = this.setHandlers()
 }
 
 /**
@@ -65,8 +65,8 @@ Ui.prototype.chooseSideHandler = function (event) {
 }
 
 Ui.prototype.setHandlers = function () {
-  this.DOMElements.gameBoard.addEventListener('click', this.boardClickHandler)
-  this.DOMElements.chooseSide.addEventListener('click', this.chooseSideHandler)
+  this.DOMElements.gameBoard.addEventListener('click', (event) => this.boardClickHandler(event))
+  this.DOMElements.chooseSide.addEventListener('click', (event) => this.chooseSideHandler(event))
   return {
     boardClickHandler: {
       type: 'click',

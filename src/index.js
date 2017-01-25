@@ -1,11 +1,11 @@
 require('./css/main.scss')
 import Game from './js/game'
 
-function ready(fn) {
-  if (document.readyState != 'loading'){
-    fn();
+function ready (fn) {
+  if (document.readyState !== 'loading') {
+    fn()
   } else {
-    document.addEventListener('DOMContentLoaded', fn);
+    document.addEventListener('DOMContentLoaded', fn)
   }
 }
 
@@ -13,4 +13,3 @@ ready(() => {
   const game = new Game()
   return game
 })
-
