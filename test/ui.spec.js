@@ -8,10 +8,10 @@ describe('User interface', () => {
     it('should display choosen message to user', () => {
       let ui = new Ui()
       ui.setInfoBoxMessage('sideSelect')
-      let message = ui.DOMElements.infoBox.children[0].innerHTML
+      let message = ui.DOMElements.get('infoBox').children[0].innerHTML
       expect(message).equal('Choose side')
       ui.setInfoBoxMessage('draw')
-      message = ui.DOMElements.infoBox.children[0].innerHTML
+      message = ui.DOMElements.get('infoBox').children[0].innerHTML
       expect(message).equal('It\'s a draw')
     })
   })
@@ -35,14 +35,14 @@ describe('User interface', () => {
       ui.showMark(Map({
         field: 'r0c0',
         player: 'playerX'}))
-      const markX = ui.DOMElements.gameBoard.querySelector('#r0c0 .Xmark')
+      const markX = ui.DOMElements.get('gameBoard').querySelector('#r0c0 .Xmark')
       expect(markX.classList.contains('visible')).to.equal(true)
       expect(markX.classList.contains('hidden')).to.equal(false)
       ui.showMark(Map({
         field: 'r1c2',
         player: 'playerO'
       }))
-      const markO = ui.DOMElements.gameBoard.querySelector('#r1c2 .Omark')
+      const markO = ui.DOMElements.get('gameBoard').querySelector('#r1c2 .Omark')
       expect(markO.classList.contains('visible')).to.be.true
       expect(markO.classList.contains('hidden')).to.be.false
     })
@@ -59,11 +59,21 @@ describe('User interface', () => {
       })
       expect(moveSpy.calledOnce).to.be.true
     })
-    it('should be able to lock board',  () => {
+    it('should be able to lock and unlock board',  () => {
       let game = {}
       let ui = new Ui(game)
-      ui.lockBoard()
-      expect(ui.eventHandlers.has('boardClickHandler')).to.be.false
+      ui.toggleBoard()
+      expect(ui.eventHandlers.has('boardClick')).to.be.true
+      ui.toggleBoard()
+      expect(ui.eventHandlers.has('boardClick')).to.be.false
+    })
+    it('should be able to lock and unlock choose side box', () => {
+      let game = {}
+      let ui = new Ui(game)
+      ui.toggleChooseSide()
+      expect(ui.eventHandlers.has('chooseSide')).to.be.true
+      ui.toggleChooseSide()
+      expect(ui.eventHandlers.has('chooseSide')).to.be.false
     })
   })
 })

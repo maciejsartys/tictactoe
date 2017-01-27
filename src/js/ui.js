@@ -8,14 +8,14 @@ import { Map } from 'immutable'
 
 export default function Ui (game) {
   this.game = game
-  this.eventHandlers = {}
-  this.DOMElements = {
+  this.eventHandlers = Map({})
+  this.DOMElements = Map({
     gameBoard: document.getElementById('gameBoard'),
     shutter: document.getElementById('shutter'),
     infoBox: document.getElementById('infoBox'),
     chooseSide: document.getElementById('chooseSide')
-  }
-  this.eventHandlers = this.setHandlers()
+  })
+  this.eventHandlers = Map({})
 }
 
 /**
@@ -26,7 +26,7 @@ export default function Ui (game) {
 Ui.prototype.showMark = function (move) {
   const mark = move.get('player').slice(-1)
   const selector = '#' + move.get('field') + ' .' + mark + 'mark'
-  const element = this.DOMElements.gameBoard.querySelector(selector)
+  const element = this.DOMElements.get('gameBoard').querySelector(selector)
   element.classList.remove('hidden')
   element.classList.add('visible')
 }
@@ -46,7 +46,7 @@ Ui.prototype.setInfoBoxMessage = function (messageType) {
         throw new Error('Wrong type of message')
     }
   })()
-  this.DOMElements.infoBox.children[0].innerHTML = message
+  this.DOMElements.get('infoBox').children[0].innerHTML = message
 }
 
 Ui.prototype.boardClickHandler = function (event) {
@@ -64,25 +64,32 @@ Ui.prototype.chooseSideHandler = function (event) {
   }
 }
 
-Ui.prototype.setHandlers = function () {
-  this.DOMElements.gameBoard.addEventListener('click', (event) => this.boardClickHandler(event))
-  this.DOMElements.chooseSide.addEventListener('click', (event) => this.chooseSideHandler(event))
-  return Map({
-    boardClickHandler: Map({
+Ui.prototype.toggleChooseSide = function () {
+  if (this.eventHandlers.has('chooseSide')) {
+    let handler = this.eventHandlers.get('chooseSide')
+    handler.get('element').removeEventListener(handler.get('type'), handler.get('func'))
+    this.eventHandlers = this.eventHandlers.delete('chooseSide')
+  } else {
+    this.DOMElements.get('chooseSide').addEventListener('click', event => this.chooseSideHandler(event))
+    this.eventHandlers = this.eventHandlers.set('chooseSide', Map({
       type: 'click',
-      element: this.DOMElements.gameBoard,
+      element: this.DOMElements.get('chooseSide'),
+      func: event => this.chooseSideHandler(event)
+    }))
+  }
+}
+
+Ui.prototype.toggleBoard = function () {
+  if (this.eventHandlers.has('boardClick')) {
+    let handler = this.eventHandlers.get('boardClick')
+    handler.get('element').removeEventListener(handler.get('type'), handler.get('func'))
+    this.eventHandlers = this.eventHandlers.delete('boardClick')
+  } else {
+    this.DOMElements.get('gameBoard').addEventListener('click', (event) => this.boardClickHandler(event))
+    this.eventHandlers = this.eventHandlers.set('boardClick', Map({
+      type: 'click',
+      element: this.DOMElements.get('gameBoard'),
       func: (event) => this.boardClickHandler(event)
-    }),
-    chooseSideHandler: Map({
-      type: 'click',
-      element: this.DOMElements.chooseSide
-    })
-  })
+    }))
+  }
 }
-
-Ui.prototype.lockBoard = function () {
-  let handler = this.eventHandlers.get('boardClickHandler')
-  handler.get('element').removeEventListener(handler.get('type'), handler.get('func'))
-  this.eventHandlers = this.eventHandlers.delete('boardClickHandler')
-}
-
