@@ -59,5 +59,11 @@ describe('User interface', () => {
       })
       expect(moveSpy.calledOnce).to.be.true
     })
+    it('should be able to lock board',  () => {
+      let game = {}
+      let ui = new Ui(game)
+      ui.lockBoard()
+      expect(ui.eventHandlers.has('boardClickHandler')).to.be.false
+    })
   })
 })

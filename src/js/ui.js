@@ -67,15 +67,22 @@ Ui.prototype.chooseSideHandler = function (event) {
 Ui.prototype.setHandlers = function () {
   this.DOMElements.gameBoard.addEventListener('click', (event) => this.boardClickHandler(event))
   this.DOMElements.chooseSide.addEventListener('click', (event) => this.chooseSideHandler(event))
-  return {
-    boardClickHandler: {
+  return Map({
+    boardClickHandler: Map({
       type: 'click',
-      element: this.DOMElements.gameboard
-    },
-    chooseSideHandler: {
+      element: this.DOMElements.gameBoard,
+      func: (event) => this.boardClickHandler(event)
+    }),
+    chooseSideHandler: Map({
       type: 'click',
       element: this.DOMElements.chooseSide
-    }
-  }
+    })
+  })
+}
+
+Ui.prototype.lockBoard = function () {
+  let handler = this.eventHandlers.get('boardClickHandler')
+  handler.get('element').removeEventListener(handler.get('type'), handler.get('func'))
+  this.eventHandlers = this.eventHandlers.delete('boardClickHandler')
 }
 
