@@ -16,6 +16,7 @@
     "eslint": "^3.13.0",
     "eslint-config-standard": "^6.2.1",
     "eslint-loader": "^1.6.1",
+    "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "jsdom": "^9.8.0",
     "mocha": "^3.1.2",
@@ -27,7 +28,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
-    "start": "webpack --watch",
+    "start": "webpack-dev-server",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive",
     "test:watch": "npm run test -- --watch"
   },

@@ -3,3 +3,5 @@ src/css/main.css*
 static/js/*.*
 node_modules/
 yarn.lock
+yarn-error.log
+settings.json
