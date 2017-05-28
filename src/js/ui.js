@@ -13,9 +13,19 @@ export default function Ui (game) {
     gameBoard: document.getElementById('gameBoard'),
     shutter: document.getElementById('shutter'),
     infoBox: document.getElementById('infoBox'),
-    chooseSide: document.getElementById('chooseSide')
+    chooseSide: document.getElementById('chooseSide'),
+    startNewGame: document.getElementById('resetGame')
   }
   this.eventHandlers = this.setHandlers()
+  this.clearBoard()
+}
+
+Ui.prototype.clearBoard = function () {
+  const fields = this.DOMElements.gameBoard.querySelectorAll('.field p')
+  Array.prototype.forEach.call(fields, (el, i) => {
+    el.classList.remove('visible')
+    el.classList.add('hidden')
+  })
 }
 
 /**
@@ -50,7 +60,7 @@ Ui.prototype.setInfoBoxMessage = function (messageType) {
 }
 
 Ui.prototype.boardClickHandler = function (event) {
-  if (event.target.className === 'field') {
+  if (event.target.className.includes('field')) {
     this.game.move(Map({
       player: this.game.playerMark,
       field: event.target.id
@@ -64,9 +74,14 @@ Ui.prototype.chooseSideHandler = function (event) {
   }
 }
 
+Ui.prototype.startNewGameHandler = function (event) {
+  this.game.reset()
+}
+
 Ui.prototype.setHandlers = function () {
   this.DOMElements.gameBoard.addEventListener('click', (event) => this.boardClickHandler(event))
   this.DOMElements.chooseSide.addEventListener('click', (event) => this.chooseSideHandler(event))
+  this.DOMElements.startNewGame.addEventListener('click', (event) => this.startNewGameHandler(event))
   return {
     boardClickHandler: {
       type: 'click',
@@ -75,7 +90,10 @@ Ui.prototype.setHandlers = function () {
     chooseSideHandler: {
       type: 'click',
       element: this.DOMElements.chooseSide
+    },
+    startNewGameHandler: {
+      type: 'click',
+      element: this.DOMElements.startNewGame
     }
   }
 }
-

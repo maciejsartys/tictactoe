@@ -9,6 +9,10 @@ import Ai from './ai'
 */
 
 export default function Game () {
+  this.reset()
+}
+
+Game.prototype.reset = function () {
   this.state = Map({
     type: 'chooseSide',
     value: null

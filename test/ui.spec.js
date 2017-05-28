@@ -29,6 +29,15 @@ describe('User interface', () => {
       expect(setPlayerMarkSpy.calledWith('playerX')).to.be.true
     })
   })
+  describe('Start New Game button', () => {
+    it('should reset game when clicked', () => {
+      let game = {}
+      let ui = new Ui(game)
+      const reset = game.reset = sinon.spy()
+      ui.startNewGameHandler()
+      expect(reset.calledOnce).to.be.true
+    })
+  })
   describe('gameboard', () => {
     it('should switch visibility of mark in field', () => {
       const ui = new Ui()
