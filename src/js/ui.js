@@ -60,7 +60,7 @@ Ui.prototype.setInfoBoxMessage = function (messageType) {
 }
 
 Ui.prototype.boardClickHandler = function (event) {
-  if (event.target.className.includes('field')) {
+  if (this.game.state.get('type') === 'underway' && event.target.className.includes('field')) {
     this.game.move(Map({
       player: this.game.playerMark,
       field: event.target.id

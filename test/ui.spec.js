@@ -58,8 +58,10 @@ describe('User interface', () => {
     it('should react when user click field', () => {
       let game = {}
       game.playerMark = 'playerX'
+      game.state = Map({type: 'underway'})
       const moveSpy = game.move = sinon.spy()
       let ui = new Ui(game)
+
       ui.boardClickHandler({
         target: {
           className: 'field',
