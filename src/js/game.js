@@ -19,6 +19,9 @@ Game.prototype.reset = function () {
   })
   this.gameboard = new Gameboard()
   this.playerMark = null
+  if (typeof this.ui !== 'undefined') {
+    this.ui.removeHandlers()
+  }
   this.ui = new Ui(this)
   this.ai = new Ai()
 }
