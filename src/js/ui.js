@@ -111,3 +111,7 @@ Ui.prototype.removeHandlers = function () {
   })
   this.eventHandlers = Map({})
 }
+
+Ui.prototype.waitForPlayerMove = function () {
+
+}

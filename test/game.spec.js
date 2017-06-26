@@ -8,6 +8,7 @@ describe('Game', () => {
   beforeEach(() => {
     game = new Game()
     game.ui.waitForPlayerMove = sinon.spy()
+    game.playerMark = 'playerO'
   })
   // choose side, playerMove, gameFinished,
   it('should initialize state at beginning', () => {
@@ -30,6 +31,7 @@ describe('Game', () => {
     }))
   })
   it('should wait for next move if game is still underway', () => {
+    const getNextMoveSpy = sinon.stub(game, 'getNextMove') //prevents from making more moves
     let move = Map({
       player: 'playerO',
       field: 'r0c0'
@@ -45,7 +47,7 @@ describe('Game', () => {
     }))
     move = Map({
       player: 'playerX',
-      field: 'r0c0'
+      field: 'r0c1'
     })
     game.state = Map({
       type: 'playerMove',
@@ -56,6 +58,8 @@ describe('Game', () => {
       type: 'playerMove',
       value: 'playerO'
     }))
+    expect(getNextMoveSpy.calledTwice).to.be.true
+    game.getNextMove.restore()
   })
   it('should be finished when one of players won', () => {
     const move = Map({
@@ -158,12 +162,16 @@ describe('Game', () => {
     })
     it('should check result after move', () => {
       const checkResultSpy = sinon.spy(game, 'checkResult')
+      const nextSpy = sinon.stub(game, 'next')
       const nextMove = Map({
         player: 'playerO',
         field: 'r1c1'
       })
+      console.log('test')
       game.move(nextMove)
-      expect(checkResultSpy.calledOnce).to.be.true
+      expect(checkResultSpy.calledOnce  ).to.be.true
+      nextSpy.restore()
+      checkResultSpy.restore()
     })
   })
 })

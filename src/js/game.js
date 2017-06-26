@@ -54,15 +54,22 @@ Game.prototype.move = function (move) {
   }
   this.gameboard.addMove(move.get('player'), move.get('field'))
   this.ui.showMark(move)
+  console.log(move)
   const gameResult = this.checkResult(move)
   this.next(gameResult, move)
 }
 
 Game.prototype.getNextMove = function (player) {
+  if (player !== 'playerX' && player !== 'playerO') {
+    throw new Error('Wrong parameter value: ' + player)
+  }
   if (player === this.playerMark) {
     this.ui.waitForPlayerMove()
   } else {
-    this.ai.getMove(this.gameboard.boardState, player)
+    this.move(Map({
+      field: this.ai.getMove(this.gameboard.boardState, player),
+      player: player
+    }))
   }
 }
 
@@ -86,7 +93,7 @@ Game.prototype.next = function (result, lastMove) {
           value: lastMove.get('player') === 'playerX' ? 'playerO' : 'playerX'
         })
       }
-      this.getNextMove(this.state.get('player'))
+      this.getNextMove(this.state.get('value'))
       break
     case 'draw':
       this.state = Map({
