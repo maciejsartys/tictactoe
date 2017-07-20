@@ -20,7 +20,7 @@ Game.prototype.reset = function () {
   this.gameboard = new Gameboard()
   this.playerMark = null
   if (typeof this.ui !== 'undefined') {
-    this.ui.removeHandlers()
+    this.ui.removeAllHandlers()
   }
   this.ui = new Ui(this)
   this.ai = new Ai()
@@ -28,6 +28,7 @@ Game.prototype.reset = function () {
 
 /**
  * function checkResult
+ * @param object
  * depending on gameboard state can return 'won', 'draw' or 'underway'
  */
 
@@ -48,17 +49,25 @@ Game.prototype.checkResult = function (lastMove) {
   }
 }
 
+/**
+ * function move
+ * @param move
+ * process current move and runs next step
+ */
 Game.prototype.move = function (move) {
   if (move instanceof Map !== true) {
     throw new TypeError('Invalid parameter')
   }
   this.gameboard.addMove(move.get('player'), move.get('field'))
   this.ui.showMark(move)
-  console.log(move)
   const gameResult = this.checkResult(move)
   this.next(gameResult, move)
 }
 
+/**
+ * function getNextMove
+ * @param player
+ */
 Game.prototype.getNextMove = function (player) {
   if (player !== 'playerX' && player !== 'playerO') {
     throw new Error('Wrong parameter value: ' + player)

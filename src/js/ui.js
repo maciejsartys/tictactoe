@@ -105,11 +105,16 @@ Ui.prototype.setHandlers = function () {
   })
 }
 
-Ui.prototype.removeHandlers = function () {
-  this.eventHandlers.forEach((handler) => {
-    handler.element.removeEventListener(handler.type, handler.fn)
+Ui.prototype.removeHandler = function (handlerName) {
+  const handler = this.eventHandlers.get(handlerName)
+  handler.element.removeEventListener(handler.type, handler.fn)
+  this.eventHandlers.delete(handlerName)
+}
+
+Ui.prototype.removeAllHandlers = function () {
+  this.eventHandlers.forEach((handler, handlerName) => {
+    this.removeHandler(handlerName)
   })
-  this.eventHandlers = Map({})
 }
 
 Ui.prototype.waitForPlayerMove = function () {
