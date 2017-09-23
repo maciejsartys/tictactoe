@@ -89,6 +89,9 @@ Game.prototype.getNextMove = function (player) {
 
 Game.prototype.next = function (result, lastMove) {
   switch (result) {
+    case 'beginning':
+      this.ui.setInfoBoxMessage('sideSelect')
+      this.ui.showChooseSideBox()
     case 'underway':
       if (lastMove === null) {
         const firstSide = this.randomizeFirstSide()

@@ -120,3 +120,15 @@ Ui.prototype.removeAllHandlers = function () {
 Ui.prototype.waitForPlayerMove = function () {
 
 }
+
+Ui.prototype.changeVisibility = function(element, action) {
+  switch (element) {
+    case 'chooseSideBox':
+      break
+    case 'startNewGame':
+      break
+    case 'shutter':
+      break
+  }
+
+}
